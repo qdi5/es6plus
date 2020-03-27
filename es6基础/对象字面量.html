@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>对象字面量</title>
+  </head>
+  <body>
+    <script>
+      // 对象字面量
+      var book = {
+        title: "Modular ES6",
+        author: "Nicolas",
+        publisher: "O'Reilly"
+      };
+
+      // 对象的属性名和所引用的变量名相同；可简写
+      var listeners = [];
+      function listen() {}
+      // es5
+      var events = {
+        listeners: listeners,
+        listen: listen
+      };
+
+      // es6 简写语法可以省略属性值和冒号
+      var events = {
+        listeners,
+        listen
+      };
+    </script>
+  </body>
+</html>
