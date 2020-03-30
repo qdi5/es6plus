@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>方法简写</title>
+  </head>
+  <body>
+    <script>
+      // es5
+      var emitter = {
+        events: {},
+        on: function(type, fn) {},
+        emit: function(type, event) {}
+      };
+
+      // es6
+      var emitter = {
+        events: {},
+        on(type, fn) {},
+        emit(type, event) {}
+      };
+    </script>
+  </body>
+</html>

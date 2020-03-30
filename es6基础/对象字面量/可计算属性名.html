@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>可计算属性名</title>
+  </head>
+  <body>
+    <script>
+      // es5
+      var expertise = "journalism";
+      var person = {
+        name: "Sharon",
+        age: 27
+      };
+      person[expertise] = {
+        years: 5,
+        interests: ["international", "politics", "internet"]
+      };
+
+      // es6 使用可计算属性名，用方括号包裹表达式，并将其作为属性名使用。
+      var expertise = "journalism";
+      var person = {
+        name: "Sharon",
+        age: 27,
+        [expertise]: {
+          years: 5,
+          interests: ["international", "politics", "internet"]
+        }
+      };
+
+      // 使用场景一
+      var grocery = {
+        id: "bananas",
+        name: "Bananas",
+        units: 6,
+        price: 10,
+        currency: "USD"
+      };
+      var groceries = {
+        [grocery.id]: grocery
+      };
+      console.log("groceries:", groceries);
+      /*
+      {
+          bananas: {
+              id: "bananas", 
+              name: "Bananas",
+              units: 6, 
+              price: 10, 
+              currency: "USD"
+            }
+        }
+      */
+
+      // 使用场景二
+      // 一个函数接受一个参数，然后用该参数构建对象。
+      // es5
+      function getEnvelope(type, description) {
+        var envelop = {
+          data: {}
+        };
+        envelope[type] = description;
+        return envelope;
+      }
+
+      function getEnvelope(type, description) {
+        return {
+          data: {},
+          [type]: description
+        };
+      }
+    </script>
+  </body>
+</html>
