@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>解构赋值</title>
+  </head>
+  <body>
+    <script>
+      // 解构可以用于对象，数组以及函数参数列表。
+      var character = {
+        name: "Bruce",
+        pseudonym: "Batman",
+        metadata: {
+          age: 34,
+          gender: "male"
+        }
+      };
+
+      // 使用解构；获取pseudonym,name的值
+      var { pseudonym } = character;
+      var { pseudonym, name } = character;
+      console.log(pseudonym, name);
+
+      // 别名；提取pseudonym属性，并将其声明为alias变量;
+      var { pseudonym: alias } = character;
+      console.log("alias:", alias);
+
+      // 解构嵌套属性
+      var {
+        metadata: { gender }
+      } = character;
+      console.log("gender:", gender);
+
+      // 解构嵌套属性，并使用别名
+      var {
+        metadata: { gender: characterGender }
+      } = character;
+      console.log("characterGender:", characterGender);
+
+      // 解构提供默认值，避免报错（比如访问一个null或undefined的一个属性时）;默认值可以是任意类型：数值、字符串、函数、对象，或者对其他变量的引用等
+      var { defalutValue = { size: 10 } } = character;
+      console.log("defaultValue:", defalutValue);
+
+      // 默认值也适用于嵌套属性解构
+      var {
+        metadata: { enemy = "Satan" }
+      } = character;
+      console.log("enemy:", enemy);
+
+      // 别名与默认值同时使用;别名放在前，默认值放在后面
+      var { boots: footwear = { size: 10 } } = character;
+    </script>
+  </body>
+</html>
