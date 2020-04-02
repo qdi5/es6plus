@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>函数参数的解构</title>
+</head>
+<body>
+    <script>
+        // 函数参数的默认值
+        function powerof(base, exponent = 2) {
+            return Math.pow(base, exponent);
+        }
+
+        // 为箭头函数的参数指定默认值，哪怕只有一个参数，也需要用圆括号将参数列表包裹起来
+        var double = (input = 0) => input * 2
+        
+        // 默认对象参数；（该方法存在一个问题，如果carFactory的使用者传入一个options对象，则所有的默认值都会失效；下面结合
+        // 函数参数的默认值和解构能够解决这个问题）
+        var defaultOptions = { brand: 'Volkswagen', make: 1999 }
+        function carFactory(options = defaultOptions) {
+            console.log(options.brand)
+            console.log(options.make)
+        }
+
+        carFactory({ make: 2000 })
+        
+        // 函数参数的解构（解决了上面的问题，但是不能引用options了；如果我们调用carFactory2时不传入参数，则会报错，下面解决这个问题）
+        function carFactory2({ brand = 'volkswagen', make = 1999 }) {
+            console.log(brand)
+            console.log(make)
+        }
+        carFactory2({ make: 3000 })
+
+        // 为options添加一个空对象作为默认值，避免没有传入参数时报错
+        function carFactory({
+            brand = 'Volkswagen',
+            make = 1999
+        } = {}) {
+            console.log(brand)
+            console.log(make)
+        }
+        // 在函数中提取对象的某些属性作为参数，通过解构提前显式地引用这些属性；
+        // 当看到函数声明时，就能够知道函数需要使用哪些属性
+        // 参数列表中指定需要的所有属性
+        var getCarProductModel = ({ brand, make, model }) => ({
+            sku: brand + ':' + make + ':' + model,
+            brand,
+            make,
+            model
+        });
+        function splitDate(date) {
+            var rdate = /(\d+).(\d+).(\d+)/
+            return rdate.exec(date)
+        }
+        var matches = splitDate('2015-11-06');
+        if (matches !== null) {
+            var [, year, month, day] = matches
+            console.log(year, month, day)
+        }
+    </script>
+</body>
+</html>

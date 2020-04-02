@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>数组的解构</title>
+  </head>
+  <body>
+    <script>
+      var coordinates = [12, -7];
+      var [x, y] = coordinates;
+      console.log(x, y);
+
+      // 解构数组时可以跳过不感兴趣或不需要引用的值
+      var names = ["James", "L", "Howlett"];
+      var [firstName, , lastName] = names;
+      console.log(firstName, lastName);
+
+      // 数组解构，设定默认值
+      var names = ["James", "L."];
+      var [firstName = "John", , lastName = "Doe"] = names;
+      console.log("数组解构设定默认值：", lastName);
+
+      // 使用解构交换变量的值
+      var left = 5;
+      var right = 7;
+      [left, right] = [right, left];
+      console.log(left, right);
+    </script>
+  </body>
+</html>
