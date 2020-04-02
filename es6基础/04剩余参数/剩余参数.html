@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>剩余参数</title>
+</head>
+<body>
+    <script>
+        // 在函数的最后一个参数前添加...可以将该参数转变为一个特殊的"剩余参数"。
+        // 当剩余参数是参数中的唯一参数时，它会获取所有传入函数的参数。（与es5中 [].slice.call(arguments效果差不多)）
+        function join(...list) {
+            console.log('list:\n', list)
+            return list.join(',')
+        }
+        
+        console.log(join('first', 'second', 'third'))
+
+        // 剩余参数前面的参数不会包含在list参数中
+        function join2(separator, ...list) {
+            console.log('list2:\n', list)
+            return list.join(separator)
+        }
+        console.log(join2(';', 'first', 'second', 'third'))
+
+        // 箭头函数中的剩余参数，只有一个参数时，也必须放置在圆括号中
+        var sumAll = (...numbers) => numbers.reduce((total, next) => {
+            console.log(total, next)
+            return total + next
+        });
+        console.log(sumAll(100,2,5))
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>扩展运算符</title>
+</head>
+<body>
+    <script>
+        // 扩展运算符可以将可遍历对象转换为数组，能够在数组或函数调用中轻松展开表达式。
+        // ...arguments将函数参数转换为一个数组字面量
+        function cast() {
+            console.log(Object.prototype.toString.call(...arguments))
+            console.log(...arguments)
+            return [...arguments]
+        }
+        console.log(cast('a','b','c'))
+
+        // 扩展运算符可以将一个字符串分割成数组,数组中的元素为组成字符串的每个字符
+        var arr = [...'show me']
+        console.log('arr:\n', arr)
+
+        function cast2() {
+            return ['left', ...arguments, 'right']
+        }
+
+        // 扩展运算符拼接多个数组
+        var all = [1, ...[2,3],4,...[5],6,7]
+        console.log('all:\n', all)
+
+        // 数组的解构和扩展运算符可以结合使用
+        var [first, second, ...other] = ['a', 'b', 'c', 'd', 'e']
+
+        function multiply(left, right) {
+            return left * right
+        }
+        var result = multiply(...[2,3])
+        console.log('result:\n', result)
+
+        function print(...list) {
+            console.log('list:\n', list)
+        }
+        print(1,...[2,3],4,...[5])
+        
+        // new和apply
+        var date = new (Date.bind.apply(Date, [null, 2015, 11, 31]))
+        console.log('date:\n', date)
+
+        // 等价于上面的写法
+        new Date(...[2015, 11, 31])
+    </script>
+</body>
+</html>
