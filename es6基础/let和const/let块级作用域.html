@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>let块级作用域</title>
+</head>
+<body>
+    <script>
+        // var声明的变量遵循词法作用域，只能通过嵌套函数来创建更深的作用域
+        // let声明的变量遵循块级作用域，通过新增一对花括号即可创建更深的作用域
+        let topmost = {}
+        {
+            let inner = {inner: 'inner'}
+            {
+                let innermost = {innermost: 'innermost'}
+            }
+            // 在此处尝试访问innermost会抛出异常
+            // console.log(innermost)
+        }
+        // console.log(inner) // 会报错
+        // console.log(innermost)
+
+        // 在for循环中使用let，则变量的作用域会封闭在循环体内
+        for (let i = 0; i < 2; i++) {
+            console.log(i)
+        }
+        // console.log(i) // i is not defined
+
+        function printNumbers() {
+            for (let i = 0; i < 10; i++) {
+                setTimeout(function() {
+                    console.log(i)
+                }, i * 100)
+            }
+        }
+        printNumbers()
+
+        // 暂时性死区
+        // 从作用域开始到let声明的执行前，访问let声明的变量都会报错
+        {
+            // console.log(name)  // Cannot access 'name' before initialization
+            let name = 'Stephen Hawking'
+        }
+        
+        // 在函数声明中访问暂时性死区中的变量是没问题的，只要访问处于暂时性死区中变量的语句在let声明语句之后执行即可
+        function readName() {
+            return name
+        }
+        // console.log(readName())  //  Cannot access 'name' before initialization
+        let name = 'liu de hua'
+        console.log(readName()) // liu de hua
+    </script>
+</body>
+</html>

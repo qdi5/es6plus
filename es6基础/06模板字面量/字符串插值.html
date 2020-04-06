@@ -14,9 +14,47 @@
         // 模板字符串使用js表达式
         var time = `the time and date is ${new Date().toLocaleDateString()}`
         console.log(time)
-        // 嵌套模板字符串
+        // 插入数学运算
+        var five = `the result of 2+3 equals ${ 2+ 3 }`
+        // 嵌套模板字面量
         var nestTime = `this temple literal ${ `is ${'nested'}` }`
         console.log(nestTime)
+
+        // 模板字符串默认支持多行字符串
+        var multiline = 
+        `The first line 
+        A second line 
+        Then a third line`
+        console.log(`multiline: 
+        ${ multiline }`)
+
+        // 在html中插入多个变量
+        var book = {
+            title: 'Modular ES6',
+            excerpt: 'Here goes some properly sanitized HTML',
+            tags: ['es6', 'template-literals', 'es6-in-depth']
+        }
+
+        var html = `<article>
+            <header>
+                <h1>${ book.title }</h1>
+            </header>
+            <section>
+                ${ book.excerpt }
+            </section>
+            <footer>
+                <ul>
+                    ${
+                        book.tags.map(tag => `<li>${tag}</li>`).join('\n    ')
+                    }
+                </ul>
+            </footer>
+        
+        `
+        var $body = document.documentElement
+        console.log(document.body)
+        console.log(document.documentElement)
+        $body.innerHTML = html
     </script>
 </body>
 </html>

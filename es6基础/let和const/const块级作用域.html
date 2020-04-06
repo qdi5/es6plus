@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>const块级作用域</title>
+</head>
+<body>
+    <p><color style="color: red;">const声明的变量必须在声明时就进行初始化</color></p>
+    <p>
+        <color style="color: red;">
+            const声明的变量无法重复赋值（严格模式会报错；非严格模式下不会报错，但改变不生效）
+        </color>
+    </p>
+    <script>
+        const pi = 3.1415
+        {
+            const pi = 6
+            console.log(`inner pi：${pi}`)
+        }
+        console.log(`outer pi：${pi}`)
+        
+        const people = ['Tesla', 'Musk']
+        // people = [] // Uncaught TypeError: Assignment to constant variable.
+        console.log(people)
+
+         // const声明的变量会一直持有对同一个对象或基本值的引用，保持不变的只是这个引用。但是引用值指向的值并不是不可改变的。
+        const people2 = ['tesla', 'musk']
+        people2.push('berners-lee')
+        console.log(people2)
+
+        // 可以使用Object.freeze禁止扩展传入的对象，确保值不变
+        const frozen = Object.freeze(['Ice', 'Icicle', 'Ice cube'])
+        frozen.push('water') // Uncaught TypeError: Cannot add property 3, object is not extensible
+       
+    </script>
+</body>
+</html>
