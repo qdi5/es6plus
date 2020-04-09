@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>类的继承</title>
+</head>
+<body>
+    <script>
+        class Fruit {
+            constructor(name, calories) {
+                this.name = name
+                this.calories = calories
+                this.pieces = 1
+                this.count = 10
+            }
+            chop() {
+                this.pieces++
+            }
+            bite(person) {
+                if (this.pieces < 1) {
+                    return
+                }
+                const calories = this. calories / this.pieces
+                person.satiety += calories
+                this.calories -= calories
+                this.pieces--
+            }
+            // 实例每次访问next属性，count就会自动加1
+            get next() {
+                return this.count++
+            }
+            // 实例每次访问set属性，就会给count重新赋值
+            set set(data) {
+                this.count = data
+            }
+        }
+
+        class Apple extends Fruit {
+            constructor() {
+                super('apple', 105)
+            }
+            slice() {
+                this.pieces = 996
+            }
+        }
+        var ap = new Apple()
+        console.log('pieces:', ap.pieces)
+    </script>
+</body>
+</html>

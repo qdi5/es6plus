@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>符号</title>
+</head>
+<body>
+    <script>
+        // 1、本地符号  new和符号一起使用时，会抛出TypeError
+        // 为了便于调试，我们可以在创建符号时添加一些描述或说明
+        const first = Symbol('my symbol')
+        console.log('first:', first)
+        // 符号值是不可变的，相同的描述不会影响符号值的唯一性
+        console.log(Symbol() === Symbol()) // false
+        console.log(Symbol('呵呵哒') === Symbol('呵呵哒')) // false
+
+        // 符号用作对象的属性名
+        const weapon = Symbol('weapon')
+        const charset = {
+            name: 'Penguin',
+            [weapon]: 'umbrella'
+        }
+        console.log(charset[weapon])
+        
+        // Object.getOwnPropertySymbols获取给定对象中所有用作属性名的符号值
+        console.log(Object.getOwnPropertySymbols(charset))
+    </script>
+</body>
+</html>

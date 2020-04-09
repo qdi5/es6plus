@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>类</title>
+</head>
+<body>
+    <script>
+        // 类声明不会提升到所在作用域的顶部；在到达并执行类声明之前，无法实例化或进行其他存取操作
+        class Fruit {
+            constructor(name, calories) {
+                this.name = name
+                this.calories = calories
+                this.pieces = 1
+                this.count = 10
+            }
+            chop() {
+                this.pieces++
+            }
+            bite(person) {
+                if (this.pieces < 1) {
+                    return
+                }
+                const calories = this. calories / this.pieces
+                person.satiety += calories
+                this.calories -= calories
+                this.pieces--
+            }
+            // 实例每次访问next属性，count就会自动加1
+            get next() {
+                return this.count++
+            }
+            // 实例每次访问set属性，就会给count重新赋值
+            set set(data) {
+                this.count = data
+            }
+        }
+        var banner = new Fruit('香蕉', 100)
+        banner.chop()
+        console.log(banner.pieces)
+        var b = banner.next
+        var c = banner.next
+        console.log('count: ', banner.count)
+        banner.set = 10000
+        console.log(banner.count)
+    </script>
+</body>
+</html>

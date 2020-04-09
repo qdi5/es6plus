@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>使用符号将DOM元素映射到日历API对象中</title>
+</head>
+<body>
+    <script>
+        // 1、使用符号将DOM元素映射到日历API对象中
+        // 好处：1、不污染DOM元素；2、避免与其他库使用一样的属性产生冲突；3、避免与将来语言本身使用到的属性冲突
+        const cache = Symbol('calendar')
+        function createCalendar(el) {
+            if (cache in el) { // 检测Symbol值cache是否存在于el元素中
+                debugger
+                return el[cache] // 直接使用cache，避免重新实例化
+            }
+            const api = el[cache] = {
+                // 在这里编写日历API
+                now() {
+                    return Date.now()
+                }
+            }
+            return api
+        }
+        debugger
+        var apis = createCalendar(document.body)
+        console.log('当前时间戳：', apis.now())
+        var apis2 = createCalendar(document.body)
+        console.log('当前时间戳2：', apis2.now())
+
+        // 2、用符号定义协议；
+        // 协议是一种定义行为的通信契约或约定；更具体来说，如果一个库使用一个符号值，那么遵循这个库约定的对象也能够使用这个符号值
+
+        // 用符号来定义stringify函数的序列化行为
+        const json = Symbol('alternative to toJSON')
+        const character = {
+            name: 'Thor',
+            // 想要用符号值定义json行为，需要在对象字面量中使用可计算属性名
+            [json]: () => ({
+                key: 'value'
+            })
+        }
+        function stringify(target) {
+            if (json in target) {
+                return JSON.stringify(target[json]())
+            }
+            return JSON.stringify(target)
+        }
+
+        var j = stringify(character)
+        console.log(`j:${JSON.stringify(j)}`)
+    </script>
+</body>
+</html>
