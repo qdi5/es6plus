@@ -25,6 +25,52 @@
         
         // Object.getOwnPropertySymbols获取给定对象中所有用作属性名的符号值
         console.log(Object.getOwnPropertySymbols(charset))
+
+        // 2、全局符号注册表
+        // 代码域是指任何一种JavaScript执行上下文（如应用所在页面、页面中的<iframe>、通过eval执行的脚本，以及各类worker（如web worker、service worker和shared worker））
+        // 这些上下文都有自己独有的全局对象。
+          // 2.1、Symbol.for(key) 用来查找运行环境下的全局符号注册表中的key值。
+          // 如果全局注册表中`  存在所传入key对应的符号值，则返回该值。
+          // 如果不存在，则用传入的key新建一个并在全局注册。
+          // 也就是说，Symbol.for(key)是幂等的：使用给定的key查找符号值，如果没有，则创建一个并返回。
+          const example = Symbol.for('example') // 当符号被创建并添加到全局注册表时，key会用作它的描述。（由于是在整个代码域可用，所以要格外注意潜在的命名冲突）
+          console.log(example === Symbol.for('example'))
+          // 2.2、Symbol.keyFor(symbol)  返回一个符号类型的符号值在添加到全局注册表时所关联的key。
+          const example2 = Symbol.for('example')
+          console.log(Symbol.keyFor(example2))
+          // 2.3、最佳实践与注意事项
+          // 全局注册表意味着整个代码域内都可以访问符号值。全局注册表在任何代码域内返回的都是同一个对象的引用。
+          const d = document
+          const frame = d.body.appendChild(d.createElement('iframe'))
+          const framed = frame.contentWindow
+          const s1 = window.Symbol.for('example')
+          const s2 = framed.Symbol.for('example')
+          console.log(s1 === s2)
+
+          // 3、众所周知的符号；语言自带的符号值；它们提供了内部语言行为的钩子。
+            // 3.1、Symbol.toPrimitive符号决定对象如何转换成基本值。
+            const morphling = {
+                [Symbol.toPrimitive](hint) {
+                    if (hint === 'number') {
+                        return Infinity
+                    }
+                    if (hint === 'string') {
+                        return 'a lot'
+                    }
+                    return '[object Morphling]'
+                }
+            }
+            console.log(+morphling)
+            console.log(`That is ${ morphling }!`)
+            console.log(morphling + 'is powerful       ')
+            // 3.2、Symbol.match。如果将一个正则表达式的Symbol.match属性设为false，
+            // 当传入.startsWith、.endsWith或者.includes时，该正则表达式会被当做字符串字面量
+
+            const text = '/an/'
+            const regex = /an/
+            regex[Symbol.match] = false
+            console.log(text.startsWith(regex))
+
     </script>
 </body>
 </html>
