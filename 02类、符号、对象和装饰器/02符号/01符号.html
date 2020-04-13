@@ -68,9 +68,16 @@
 
             const text = '/an/'
             const regex = /an/
-            regex[Symbol.match] = false
+            regex[Symbol.match] = false // 将regex正则表达式变成了字符串形式
             console.log(text.startsWith(regex))
 
+            // 3.3、跨代码域共享但不在全局注册表中
+            const frame2 = document.createElement('iframe')
+            document.body.appendChild(frame2)
+            console.log(Symbol.iterator === frame.contentWindow.Symbol.iterator) // true
+            // 在全局注册表中，查找符号iterator
+            // Symbol.iterator符号，在任意对象上使用该符号定义一个函数，可以在不同的语言结构上迭代序列
+            console.log(Symbol.keyFor(Symbol.iterator)) // undefined；表明iterator不在全局注册表中
     </script>
 </body>
 </html>

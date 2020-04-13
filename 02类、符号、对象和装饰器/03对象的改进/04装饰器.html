@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>装饰器</title>
+</head>
+<body>
+    <script>
+        // 装饰器的语法是@后跟一系列点连接的标识符以及一个可选参数列表;
+        // 合法的装饰器：
+        // @decorators.frozen
+        // @decorators.frozen(true)
+
+        // 类声明和类成员可以添加0到多个装饰器
+        /* @inanimate
+        class Car{}
+
+        @expensive
+        @speed('fast')
+        class Lamborghini extends Car {}
+
+        class View {
+            @throttle(200) // 最多每200毫秒核对一次
+            reconcile() {}
+        } */
+
+        // 装饰器是通过函数实现的。成员装饰器函数接受成员描述符并返回成员描述符
+        /* interface MemberDescriptor {
+            kind: "Property"
+            key: string,
+            isStatic: boolean,
+            descriptor: PropertyDescriptor,
+            extras?: MemberDescriptor[]
+            finisher?: (constructor): void
+        } */
+
+        // 定义一个readonly成员装饰器函数，从而将被装饰的成员状态变为不可写；
+        // 借助对象剩余属性与对象扩展操作，我们可以将属性描述符修改成不可写状态，
+        // 并保持其余成员描述符不变。
+        function readonly({ descriptor, ...rest }) {
+            return {
+                ...rest,
+                descriptor: {
+                    ...descriptor,
+                    writable: false
+                }
+            }
+        }
+
+        function readonlyMembers(ctor, heritage, members) {
+            return members.map(member => readonly(member))
+        }
+
+        // 在javascript中装饰属性
+        // 仅对管理员可见的属性装饰Dog
+        class Dog {
+            @commandProperty('game-master')
+            name;
+        }
+
+        function commandProperty(writeLevel, readLevel = writeLevel) {
+            return ({ key, ...rest}) => ({
+                key,
+                ...rest,
+                finisher(ctor) {
+                    // 获取或创建一个符号
+                    const symbol = Symbol.for('commandProperties')
+                    const commandPropertyDescriptor = {
+                        key,
+                        readLevel,
+                        writeLevel
+                    }
+                    if (!ctor[symbol]) {
+                        ctor[symbol] = []
+                    }
+                    ctor[symbol].push(commandPropertyDescriptor)
+                }
+            })
+        }
+
+        // 使用以下函数来查找给定类的可控制属性，该函数通过符号获取可控制的属性，
+        // 并提供默认值[]，而且返回原始列表的副本，以防用户意外更改
+        function getCommandProperties(ctor) {
+            const symbol = Symbol.for('commandProperties')
+            const properties = ctor[symbol] || []
+            return [...properties]
+        }
+
+        getCommandProperties(Dog)
+    </script>
+</body>
+</html>

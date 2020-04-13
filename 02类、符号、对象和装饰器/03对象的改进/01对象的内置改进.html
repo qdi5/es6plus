@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>对象的内置改进</title>
+</head>
+<body>
+    <script>
+        // 1、使用Object.assign扩展对象;
+        // Object.assign函数会改变它的第一个参数。
+        const defaults = {
+            scripts: false,
+            iframe: false,
+            highlightSyntax: true
+        }
+        function md(input, options) {
+            // 最好每次调用Object.assign时都传入一个全新的对象作为第一个参数
+            const config = Object.assign({}, defaults, options)
+            console.log('合并的参数：\n', config)
+        }
+        md('haha', {scripts: true, iframe: true, haha: '哈哈'})
+        // Object.assign()并不会递归对象
+        const noRecursion = Object.assign({}, {a: {b: 'c', d: 'e'}}, {a: {f: 'g'}})
+        console.log('noRecursion:\n', noRecursion)
+
+        const noRecursion2 = Object.assign({}, {a: ['b', 'c', 'd']}, {a: ['e', 'f']})
+        console.log('noRecursion2:\n', noRecursion2)
+
+        // es6中替代Object.assign()的方案
+        const grocery = {...defaults} // === Object.assign({}, defaults)
+        console.log('grocery:\n',grocery)
+        console.log(grocery == defaults)
+
+        const grocery2 = { type: 'fruit', ...defaults } // === Object.assign({type: 'fruit'}, defaults)
+        console.log('grocery2:\n', grocery2)
+        const fruit = {
+            banner: '香蕉'
+        }
+        const grocery3 = { type: 'fruit', ...defaults, ...fruit } // === Object.assign({type: 'fruit'}, defaults, fruit)
+        console.log('grocery3:\n', grocery3)
+
+        const grocery4 = {type: 'fruit', ...defaults, color: 'red'}  // === Object.assign({type:'fruit'}, defaults, {color: 'red'})
+        console.log('grocery4:\n', grocery4)
+
+        // 
+    </script>
+</body>
+</html>
