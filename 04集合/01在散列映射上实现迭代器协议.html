@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const registry = Object.create(null)
+        function set(name, meta) {
+            registry['pkg:' + name] = meta
+        }
+
+        function get(name) {
+            return registry['pkg:' + name]
+        }
+        registry[Symbol.iterator] = () => {
+            const keys = Object.keys(registry)
+            return {
+                next () {
+                    console.log('执行迭代器了')
+                    const done = keys.length === 0
+                    const key = keys.shift()
+                    const value = [key, registry[key]]
+                    return { done, value}
+                }
+            }
+        }
+        set('wuzhe', '吴哲')
+        set('fancui', 'sister')
+        // 
+        console.log([...registry])
+       
+        
+    </script>
+</body>
+</html>

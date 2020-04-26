@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>map</title>
+</head>
+<body>
+    <script>
+        const map = new Map()
+        map.set('contra', { description: 'Asynchronous flow control' })
+        map.set('dragula', { description: 'drag and drop' })
+        map.set('woofmark', {
+            description: 'Markdown and WYSIWYG editor'
+        })
+        console.log('map对象：', map)
+        console.log('map对象通过展开符...转换为数组：', [...map])
+        console.log('map.size只读属性', map.size)
+        console.log('map.has判断是否有指定的键', map.has('wz'))
+        console.log('map.has判断是否有contra键:', map.has('contra'))
+        console.log('map.get获取键为contra对应的值：', map.get('contra'))
+        console.log('map.delete删除对应的值', map.delete('contra'), map.get('contra'))
+        console.log('map.clear清空整个map，但不会丢失对Map的引用', map.clear(), [...map])
+        console.log('map.size只读属性', map.size)
+        // 任意对象都可以作为map的键
+        const map2 = new Map()
+        const date = new Date()
+        const fn = () => 'key'
+        const symbol = Symbol('items')
+        map2.set(date, function today() {console.log(new Date())});
+        console.log('日期作为键：', map2.get(date))
+        map2.set(fn, {key: 'door'});
+        console.log('函数作为键：', map2.get(fn))
+        map2.set(symbol, [1,2])
+        console.log('符号作为键：',  map2.get(symbol))
+
+        // for……of迭代
+        const items = [
+            [new Date(), function today() {}],
+            [() => 'key', { key: 'door' }],
+            [Symbol('items'), [1,2]]
+        ]
+        const map3 = new Map()
+        for (const [key, value] of items) {
+            console.log(`${key}:${value}`)
+            map3.set(key, value)
+        }
+
+        // 创建map的副本
+        // 将要复制的map作为参数传递给新map的构造函数就可以获取副本
+        // 利用map本身既可以实现可迭代协议，又可以将可迭代对象作为参数的特性来创建新的map。
+        const map4 = new Map()
+        map.set(1, 'one')
+        map.set(2, 'two')
+        map.set(3, 'three')
+
+        console.log([...map4])
+        // for...of循环map
+        const map5 = new Map
+        
+    </script>
+</body>
+</html>
