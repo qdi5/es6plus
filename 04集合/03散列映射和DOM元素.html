@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>map</title>
+</head>
+<body>
+    <script>
+       // es5中实现散列映射和DOM元素的方法
+       const map = []
+       function customThing(el) {
+           const mapped = findByElement(el)
+           if (mapped) {
+               return mapped
+           }
+           const api = {
+               // 自定义api方法
+           }
+           const entry = storeInMap(el, api)
+           api.destroy = destroy.bind(null, entry)
+           return api
+       }
+
+       function storeInMap(el, api) {
+           const entry = { el, api }
+           map.push(entry)
+       }
+
+       function findByElement(query) {
+         for (const { el, api } of map) {
+            if (el === query) {
+                return api
+            }
+         } 
+       }
+
+       function destroy(entry) {
+           const index = map.indexOf(entry)
+           map.splice(index, 1)
+       }
+
+        
+    </script>
+</body>
+</html>
