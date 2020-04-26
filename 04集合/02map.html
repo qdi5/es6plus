@@ -42,7 +42,6 @@
         ]
         const map3 = new Map()
         for (const [key, value] of items) {
-            console.log(`${key}:${value}`)
             map3.set(key, value)
         }
 
@@ -50,14 +49,20 @@
         // 将要复制的map作为参数传递给新map的构造函数就可以获取副本
         // 利用map本身既可以实现可迭代协议，又可以将可迭代对象作为参数的特性来创建新的map。
         const map4 = new Map()
-        map.set(1, 'one')
-        map.set(2, 'two')
-        map.set(3, 'three')
+        map4.set(1, 'one')
+        map4.set(2, 'two')
+        map4.set(3, 'three')
 
         console.log([...map4])
         // for...of循环map
-        const map5 = new Map
-        
+        const map5 = new Map()
+        map5.set(1, 'one')
+        map5.set(2, 'two')
+        map5.set(3, 'three')
+        for(const [key, value] of map) {
+          console.log(`${key}:${value}`)
+        }
+
     </script>
 </body>
 </html>
