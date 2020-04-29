@@ -38,6 +38,7 @@
           // 2.2、Symbol.keyFor(symbol)  返回一个符号类型的符号值在添加到全局注册表时所关联的key。
           const example2 = Symbol.for('example')
           console.log(Symbol.keyFor(example2))
+          
           // 2.3、最佳实践与注意事项
           // 全局注册表意味着整个代码域内都可以访问符号值。全局注册表在任何代码域内返回的都是同一个对象的引用。
           const d = document

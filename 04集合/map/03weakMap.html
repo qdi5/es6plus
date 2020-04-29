@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>weakMap</title>
+</head>
+<body>
+    <script>
+      // 1、WeakMap没有迭代器协议
+      // 2、WeakMap中的每个key都必须是一个对象
+      // 3、弱引用；作为WeakMap键的对象除了弱引用外没有其他的引用，则该对象将被垃圾回收清除。
+      const map = new WeakMap([
+          [new Date(), 'foo'],
+          [() => 'bar', 'baz']
+      ])
+
+     
+      const date = new Date()
+      // 使用可迭代对象初始化WeakMap0000
+      const map2 = new WeakMap([[date, 'foo'], [() => 'bar', 'baz']])
+      console.log(map2.has(date))
+      console.log(map2.get(date))
+      console.log(map2.delete(date))
+      console.log(map2.has(date))
+
+    </script>
+</body>
+</html>

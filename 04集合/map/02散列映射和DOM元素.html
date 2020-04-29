@@ -40,7 +40,30 @@
            map.splice(index, 1)
        }
 
-        
+       // 使用map实现DOM到API的映射
+       const map2 = new Map()
+       function customThing2(el) {
+         const mapped = findByElement2(el)
+         if (mapped) {
+             return mapped 
+         }
+         const api = {
+            destroy: destroy2.bind(null, el)
+         }
+         storeInMap2(el, api)
+         return api
+       }
+
+       function storeInMap2(el, api) {
+         map.set(el, api) 
+       } 
+       function findByElement2(el) {
+         return map.get(el)
+       }  
+       function destroy2(el) {
+         map.delete(el)
+       }
+      
     </script>
 </body>
 </html>
