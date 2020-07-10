@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>迭代器协议与可迭代协议</title>
+</head>
+<body>
+  <script>
+    const items = ['i', 't', 'e', 'r', 'a', 'b', 'l', 'e']
+    const sequence = {
+      [Symbol.iterator]() {
+        let i = 0
+        return {
+          next() {
+            const value = items[i]
+            i++
+            const done = i > items.length - 1
+            return { value, done }
+          }
+        }
+      }
+    }
+    for (const item of sequence) {
+      console.log(item)
+    } 
+    
+    const random = {
+      [Symbol.iterator]: () => ({
+        next: () => ({ value: Math.random() })
+      })
+    }
+    const [one, another, wuzhe] = random
+    console.log(one, another, wuzhe)
+
+    function take(sequence, amount) {
+      return {
+        [Symbol.iterator]() {
+          const iterator = sequence[Symbol.iterator]()
+          return {
+            next() {
+              if (amount-- < 1) {
+                return { done: true }
+              }
+              return iterator.next()
+            }
+          }
+        }
+      }
+    }
+    console.log([...take(random, 2)])
+  </script>
+</body>
+</html>

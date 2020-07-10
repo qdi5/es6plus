@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    var reg = /"[^"]+":("[^"]+"|\[.+\]|{"[^"]+":(\d+)})/g
+    var str = '{"dn_number":"GZDN-W054454545","wuzhe":{"age":18},"items":[{"wrin_no":"00003-378","prod_date":"20200506"},{"wrin_no":"00003-378","prod_date":"20200506"}]},{"wrin_no":"00003-fdfdf","prod_date":"fdsfsdf"}'
+    var result = str.match(reg)
+    console.log(result)
+  </script>
+</body>
+</html>
