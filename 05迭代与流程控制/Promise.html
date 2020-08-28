@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promise</title>
+</head>
+<body>
+  <script>
+    /*
+      除了可以给resolve传递非Promise值，还可以给它传递另一个promise p2。
+      这种情况下，p1要等到p2解决后才能解决。（仅限于p2被resolve时，这条规则才生效）
+    */
+    // p1
+    new Promise(resolve => resolve(
+        // p2
+        new Promise(
+          resolve=> setTimeout(resolve(3), 2000)
+        )
+      )
+    ).then(data => {
+      console.log('获取到的值：',data)
+    })
+
+    /*
+      预先解决的Promise
+      使用Promise.resolve将Thenable对象转换为相应的Promise
+    */
+    Promise.resolve({ then: resolve => resolve(12) }).then(x => console.log(x))
+
+    /*
+      Promise.reject()作为箭头函数的隐式返回值
+    */
+   // Promise.reject(false)
+   fetch('http://api.wuzhe.online/article/page/1').then(
+       res => Promise.reject('哈哈')
+    ).catch(error => {
+        console.log(error)
+   })
+
+   fetch('http://api.wuzhe.online/article/page/1').then((res) => {
+     debugger
+     throw  new Error('arbitrarily')
+   }).catch(error => {
+     console.log(error)
+   })
+  </script>
+</body>
+</html>
