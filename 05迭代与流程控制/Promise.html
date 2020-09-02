@@ -44,6 +44,49 @@
    }).catch(error => {
      console.log(error)
    })
+
+   // 获取catch函数的值
+   new Promise((resolve, reject) => {
+       reject('失败')
+   }).catch(err => {
+       console.log(err)   
+       return 1
+   }).then(a => {
+      console.log('获取catch函数的值：' + a)
+   })
+
+   // 传给Promise#finally的反应函数会解决为父Promise的结果
+   const p1 = Promise.resolve('value')
+   const p2 = p1.finally(() => {})
+   const p3 = p2.then(data => console.log('获取Promise.finally的反应函数的结果：', data))
+
+   /* 传给Promise#finally的反应函数被拒绝或抛出错误，那么Promise#finally返回的Promise也会
+   以相同的原因被拒绝 */
+   const p4 = Promise.resolve('value')
+   const p5 = p4.finally(() => Promise.reject('oops'))
+   const p6 = p5.catch(err => console.log(err))
+
+   // Promise.all；处理多个并行任务；等待所有并行任务完成之后，在执行解决回调函数
+   Promise.all([fetch('/products/chair'), fetch('/products/table')]).then(([chair, table]) => console.log(chair, table))
+   
+   // Promise.race；确定状态的第一个Promise将"赢得比赛"，其结果会决定Promise.race返回的Promise的状态
+   Promise.race([
+     new Promise(resolve => setTimeout(() => resolve(1), 1000)),
+     new Promise(resolve => setTimeout(() => resolve(2), 2000))  
+    ])
+    .then(result => console.log(result))
+   
+   // 拒绝状态也会导致"比赛结束"；Promise.race；可用于对无法控制的Promise设置超时；
+   function timeout(delay) {
+     return new Promise(function (resolve, reject) {
+      setTimeout(() => reject('timeout'), delay)
+     })
+   }
+   Promise.race([
+     fetch('/large-resource-download'),
+     timeout(5000)
+   ])
+
   </script>
 </body>
 </html>
