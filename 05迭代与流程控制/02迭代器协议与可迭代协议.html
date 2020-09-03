@@ -6,9 +6,28 @@
   <title>迭代器协议与可迭代协议</title>
 </head>
 <body>
+  <h2>
+    迭代的原理
+  </h2>
+  <p>
+    普通对象想要转换成可迭代对象，必须遵守一个协议，给这个对象的Symbol.iterator属性赋值一个函数。
+  </p>
+  <p>
+    ES6为迭代可迭代对象提供了以下几种方式：for...of..，扩展操作符...和Array.from
+  </p>
   <script>
     const items = ['i', 't', 'e', 'r', 'a', 'b', 'l', 'e']
+    // 定义一个可迭代对象
     const sequence = {
+      /* 
+        赋值给 Symbol.iterator 的方法必须返回一个对象，该对象必须遵守迭代器协议。
+        迭代器方法返回的对象必须有一个next方法。next方法不接受参数，并且返回一个
+        包含以下两个属性的对象：
+        {
+          value: 序列中的当前值,
+          done: 布尔值，表明序列是否结束
+        }
+        */
       [Symbol.iterator]() {
         let i = 0
         return {
@@ -49,6 +68,10 @@
       }
     }
     console.log([...take(random, 2)])
+
+    // Array.from()还可以将类似数组的对象（具有length属性，属性是以0开头的整数）转换成数组
+    const af = Array.from( { 0: 'a', 1: 'b', 2 : 'c', length: 3 })
+    console.log(af)
   </script>
 </body>
 </html>

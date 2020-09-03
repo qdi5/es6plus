@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>迭代器的实践</title>
+</head>
+<body>
+  <script>
+    const colors = {
+      green: '#0e0',
+      orange: '#f50',
+      pink: '#e07',
+      [Symbol.iterator]() {
+        const keys = Object.keys(colors)
+        return {
+          next () {
+          const done = keys.length === 0
+          const key = keys.shift()
+          return {
+            done,
+            value: [key, colors[key]]
+          }
+        }
+      }
+    }
+  }
+  console.log([...colors])
+  const colors2 = {
+      green: '#0e0',
+      orange: '#f50',
+      pink: '#e07'
+  }
+  function keyValueIterable(target) {
+    target[Symbol.iterator] = function() {
+        const keys = Object.keys(colors)
+        return {
+          next () {
+          const done = keys.length === 0
+          const key = keys.shift()
+          return {
+            done,
+            value: [key, colors[key]]
+          }
+        }
+      }
+    }
+    return target
+  }
+
+  const iterator = keyValueIterable(colors)
+  for ([,color] of iterator) {
+    console.log(color)
+  }
+  </script>
+</body>
+</html>
