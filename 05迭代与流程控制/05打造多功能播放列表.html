@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>打造多功能播放列表</title>
+</head>
+<body>
+  <script>
+    // 存储歌曲数组
+    const songs = [
+      'Bad moon rising - Creedence',
+      'Don\'t stop me now - Queen',
+      'The Scientist - Coldplay',
+      'Somewhere only we know - Keane'
+    ]
+
+    // 播放列表；（表示当前应用要播放的曲目的序列）
+    /**
+     *  songs：歌曲数组
+     *  repeat：循环次数（歌曲数组循环次数） 
+     */
+    function playlist(songs, repeat) {
+      return {
+        [Symbol.iterator]() {
+          // 当前音乐的索引
+          let index = 0
+          return {
+            next() {
+              // 索引达到最大值后，重置索引为0              
+              if (index >= songs.length) {
+                repeat--
+                index = 0
+              }
+              // 没有可播放曲目且repeat为0
+              if (repeat < 1) {
+                return {
+                  done: true
+                }
+              }
+              const song = songs[index]
+              index++
+              return {
+                 done: false,
+                value: song
+              }
+            }
+          }
+        }
+      }  
+    }
+  </script>
+</body>
+</html>
