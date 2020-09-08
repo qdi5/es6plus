@@ -6,6 +6,9 @@
   <title>打造多功能播放列表</title>
 </head>
 <body>
+  <p>
+    迭代器不仅能帮助我们解耦代码，还能帮助我们实现之前很难实现的构造，如模糊处理曲目序列的能力
+  </p>
   <script>
     // 存储歌曲数组
     const songs = [
@@ -42,13 +45,96 @@
               index++
               return {
                  done: false,
-                value: song
+                  value: song
               }
             }
           }
         }
       }  
     }
+
+    // 迭代播放列表
+    function player (sequence) {
+      const g = sequence[Symbol.iterator]()
+      function more () {
+        const item = g.next()
+        if (item.done) {
+          return
+        }
+        // 假设已经有一个playSong函数可用于播放歌曲
+        playSong(item.value, more)
+      }
+      more()
+    }
+
+    // 重复播放一个音乐列表
+    const sequence = playlist(songs, Infinity)
+    player(sequence)
+
+    // 随机播放
+    function playlist(inputSongs, repeat, shuffle) {
+      const songs = shuffle ? shuffleSongs(inputSongs) : inputSongs
+      return {
+        [Symbol.iterator] () {
+          // 当前歌曲索引
+          let index = 0
+          return {
+            next() {
+              if (index >= songs.length) {
+                repeat--
+                index = 0
+              }
+              if (repeat < 1) {
+                return {
+                  done: true
+                }    
+              }
+              const song = songs[index]
+              index++
+              return {
+                done: false,
+                value: song
+              }
+            }
+          }
+        }
+      }
+    }
+
+    function shuffleSongs(songs) {
+      return songs.slice().sort(() => Math.random() > 0.5 ? 1 : -1)
+    }
+
+    // playlist不该管排序的事。更好的设计思路可能是将重排函数放入调用代码
+    function playlist (songs, repeat) {
+      return {
+        [Symbol.iterator]() {
+          let index = 0
+          return {
+            next() {
+              if (index >= songs.length) {
+                repeat--
+                index = 0
+              }
+              if (repeat < 1) {
+                return {
+                  done: true
+                }
+              }
+              const song = songs[index]
+              index++
+              return {
+                done: false,
+                value: song
+              }
+            }
+          }
+        }
+      }
+    }
+
+    console.log([...playlist(shuffleSongs(['a', 'b']) ,3)])
+
   </script>
 </body>
 </html>
