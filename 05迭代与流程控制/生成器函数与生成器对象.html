@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>生成器函数与生成器对象</title>
+</head>
+<body>
+  <script>
+    // 生成器函数；*号是生成器函数的标志。
+    function* abc () {
+      yield 'a'
+      yield 'b'
+      yield 'c'
+    }
+
+    /* 
+      生成器对象同时遵守可迭代协议和迭代器协议；
+    */
+   const chars = abc() // 生成器对象chars是通过函数abc创建的
+   console.log(typeof chars[Symbol.iterator] === 'function') // 对象chars是一个可迭代对象，因为它有一个Symbol.iterator方法
+   console.log(typeof chars.next === 'function') // 对象chars也是一个迭代器，因为它有一个.next方法
+   console.log(chars[Symbol.iterator]() === chars) // chars的迭代器就是它自己
+   console.log([...chars])
+   console.log(Array.from(chars)) // Array.from和...需要分开迭代，否则第二个迭代器迭代出来的值是空    
+
+   /*
+     创建生成器对象时，我们会得到一个用生成器函数产生可迭代序列的迭代器。
+     每当代码执行到yield表达式，迭代器就会返回该表达式的值，而且生成器函数会暂停执行。 
+   */
+  function* numbers() {
+    yield 1
+    console.log('a')
+    yield 2
+    console.log('b')
+    yield 3
+    console.log('c')
+  }
+  console.log([...numbers()])
+  </script>
+</body>
+</html>
